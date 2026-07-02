@@ -28,6 +28,21 @@ A full-stack ticket booking platform for movies and concerts with seat holds, wa
 
 ---
 
+## 🌐 Live Demo
+
+| Service | URL |
+|---------|-----|
+| **Frontend (Website)** | [https://ticket-booking-system-khaki.vercel.app](https://ticket-booking-system-khaki.vercel.app) |
+| **Backend API** | [https://ticket-booking-backend-99v2.onrender.com/api](https://ticket-booking-backend-99v2.onrender.com/api) |
+| **GitHub Repository** | [https://github.com/ANUSHKASHUKLA09/Ticket_Booking_System](https://github.com/ANUSHKASHUKLA09/Ticket_Booking_System) |
+
+### Demo Credentials
+
+| Role | Email | Password |
+|------|-------|----------|
+| **Admin** | `admin@example.com` | `admin123` |
+| **Customer** | Register new account | - |
+
 ## 🛠️ Tech Stack
 
 | Layer | Technology |
