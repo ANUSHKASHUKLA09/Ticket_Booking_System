@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShowTime - Premium Ticket Booking</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-icon">🎬</span>
+                <span class="brand-text">Show<span>Time</span></span>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="#" class="nav-link active" onclick="showSection('home')">🎫 Events</a>
+                <a href="#" class="nav-link" onclick="showSection('bookings')">🎟️ My Tickets</a>
+                <a href="#" class="nav-link" onclick="showSection('admin')" id="adminLink" style="display:none;">⚙️ Admin</a>
+            </div>
+            <div class="nav-auth" id="navAuth">
+                <!-- Dynamic auth buttons -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-content">
+
+        <!-- ===== AUTH MODAL ===== -->
+        <div class="modal" id="authModal">
+            <div class="modal-content auth-modal">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button>
+                    <button class="auth-tab" onclick="switchAuthTab('register')">Create Account</button>
+                </div>
+                
+                <!-- Login Form -->
+                <div id="loginForm" class="auth-form">
+                    <h2>Welcome Back</h2>
+                    <p class="auth-subtitle">Sign in to continue booking</p>
+                    <input type="email" id="loginEmail" placeholder="Email address" />
+                    <input type="password" id="loginPassword" placeholder="Password" />
+                    <button class="btn-primary" onclick="doLogin()">Sign In</button>
+                    <p class="auth-hint">Admin: admin@example.com / admin123</p>
+                </div>
+
+                <!-- Register Form -->
+                <div id="registerForm" class="auth-form" style="display:none;">
+                    <h2>Create Account</h2>
+                    <p class="auth-subtitle">Join the ShowTime experience</p>
+                    <input type="text" id="regName" placeholder="Full name" />
+                    <input type="email" id="regEmail" placeholder="Email address" />
+                    <input type="password" id="regPassword" placeholder="Password" />
+                    <select id="regRole">
+                        <option value="customer">🎭 Customer</option>
+                        <option value="organiser">🎬 Organiser</option>
+                    </select>
+                    <button class="btn-primary" onclick="doRegister()">Create Account</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== HOME SECTION ===== -->
+        <section id="homeSection" class="section">
+            <!-- Hero -->
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Book Your <span>Perfect</span> Seat</h1>
+                    <p>Movies, concerts, and events — all in one place</p>
+                </div>
+            </div>
+
+            <!-- Events Grid -->
+            <div class="section-header">
+                <h2>🎬 Now Showing</h2>
+                <span class="section-badge" id="eventCount">0 events</span>
+            </div>
+            <div id="showsList" class="events-grid">
+                <!-- Events loaded by JS -->
+            </div>
+
+            <!-- Seat Selection (hidden until show selected) -->
+            <div id="seatSection" style="display:none;">
+                <div class="section-header">
+                    <h2 id="seatSectionTitle">💺 Select Your Seats</h2>
+                    <button class="btn-close" onclick="closeSeats()">✕</button>
+                </div>
+                
+                <!-- Venue Screen -->
+                <div class="venue-screen">
+                    <div class="screen">SCREEN</div>
+                </div>
+
+                <!-- Legend -->
+                <div class="legend">
+                    <span><span class="legend-dot available"></span> Available</span>
+                    <span><span class="legend-dot held"></span> Held</span>
+                    <span><span class="legend-dot booked"></span> Booked</span>
+                    <span><span class="legend-dot selected"></span> Selected</span>
+                </div>
+
+                <!-- Seat Grid -->
+                <div id="seatGrid" class="seat-grid"></div>
+
+                <!-- Booking Actions -->
+                <div class="booking-actions">
+                    <div class="seat-info">
+                        <span id="selectedCount">0 seats selected</span>
+                        <span id="holdTimer" class="timer"></span>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-secondary" onclick="releaseHeld()">↩️ Release</button>
+                        <button class="btn-primary" onclick="holdSelected()">⏳ Hold Seats</button>
+                        <button class="btn-success" onclick="openPaymentModal()">💳 Book Now</button>
+                    </div>
+                    <div class="waitlist-section">
+                        <select id="waitlistCategory">
+                            <option value="Premium">⭐ Premium</option>
+                            <option value="Standard">🎫 Standard</option>
+                        </select>
+                        <button class="btn-outline" onclick="joinWaitlist()">📋 Join Waitlist</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== BOOKINGS SECTION ===== -->
+        <section id="bookingsSection" class="section" style="display:none;">
+            <div class="section-header">
+                <h2>🎟️ My Tickets</h2>
+                <span class="section-badge" id="bookingCount">0 bookings</span>
+            </div>
+            <div id="bookingsList" class="bookings-grid">
+                <!-- Bookings loaded by JS -->
+            </div>
+        </section>
+
+        <!-- ===== ADMIN SECTION ===== -->
+        <section id="adminSection" class="section" style="display:none;">
+            <div class="admin-grid">
+                <!-- Venue Management -->
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <span class="admin-icon">🏛️</span>
+                        <h3>Venue Management</h3>
+                    </div>
+                    <div class="admin-form">
+                        <input id="venueName" placeholder="Venue name" />
+                        <input id="venueAddress" placeholder="Address" />
+                        <div class="form-row">
+                            <input id="venueRows" type="number" placeholder="Rows" value="8" />
+                            <input id="venueSeatsPerRow" type="number" placeholder="Seats/row" value="10" />
+                        </div>
+                        <button class="btn-primary" onclick="createVenue()">➕ Create Venue</button>
+                    </div>
+                    <div id="venueList" class="admin-list"></div>
+                </div>
+
+                <!-- Show Management -->
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <span class="admin-icon">🎬</span>
+                        <h3>Show Management</h3>
+                    </div>
+                    <div class="admin-form">
+                        <select id="showVenue"></select>
+                        <input id="showTitle" placeholder="Show title" />
+                        <select id="showType">
+                            <option value="movie">🎥 Movie</option>
+                            <option value="concert">🎵 Concert</option>
+                        </select>
+                        <div class="form-row">
+                            <input id="showDate" type="date" />
+                            <input id="showTime" type="time" />
+                        </div>
+                        <input id="showPrice" type="number" placeholder="Base price ($)" value="15" />
+                        <button class="btn-primary" onclick="createShow()">➕ Create Show</button>
+                    </div>
+                </div>
+
+                <!-- Revenue Dashboard -->
+                <div class="admin-card" style="grid-column: 1 / -1;">
+                    <div class="admin-card-header">
+                        <span class="admin-icon">💰</span>
+                        <h3>Revenue Dashboard</h3>
+                        <button class="btn-secondary" onclick="loadRevenue()" style="margin-left:auto;padding:6px 16px;font-size:0.8rem;">🔄 Refresh</button>
+                    </div>
+                    <div class="revenue-stats">
+                        <div class="stat-card">
+                            <div class="stat-label">Total Revenue</div>
+                            <div class="stat-value" id="totalRevenue">₹0.00</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Total Bookings</div>
+                            <div class="stat-value" id="totalBookings">0</div>
+                        </div>
+                    </div>
+                    <div id="revenueByEvent" class="admin-list">
+                        <div style="text-align:center;padding:20px;color:var(--text-muted);">No bookings yet</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===== PAYMENT MODAL ===== -->
+    <div class="modal hidden" id="paymentModal">
+        <div class="modal-content payment-modal">
+            <div class="payment-header">
+                <span class="payment-icon">💳</span>
+                <h2>Complete Payment</h2>
+                <button class="btn-close" onclick="closePaymentModal()">✕</button>
+            </div>
+            
+            <div class="payment-summary" id="paymentSummary">
+                <!-- Dynamic content loaded by JS -->
+            </div>
+
+            <div class="payment-form">
+                <div class="payment-options">
+                    <button class="payment-option active" onclick="selectPayment('card')">
+                        💳 Card
+                    </button>
+                    <button class="payment-option" onclick="selectPayment('upi')">
+                        📱 UPI
+                    </button>
+                    <button class="payment-option" onclick="selectPayment('wallet')">
+                        👛 Wallet
+                    </button>
+                </div>
+
+                <div id="cardSection">
+                    <div class="form-group">
+                        <label>Card Number</label>
+                        <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCardNumber(this)" />
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Expiry Date</label>
+                            <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" oninput="formatExpiry(this)" />
+                        </div>
+                        <div class="form-group">
+                            <label>CVV</label>
+                            <input type="password" id="cardCvv" placeholder="***" maxlength="3" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cardholder Name</label>
+                        <input type="text" id="cardName" placeholder="John Doe" />
+                    </div>
+                </div>
+
+                <div id="upiSection" style="display:none;">
+                    <div class="form-group">
+                        <label>UPI ID</label>
+                        <input type="text" id="upiId" placeholder="example@upi" />
+                    </div>
+                </div>
+
+                <div id="walletSection" style="display:none;">
+                    <div class="form-group">
+                        <label>Wallet Balance</label>
+                        <div style="color:var(--success);font-weight:600;padding:8px 0;">💰 ₹100.00 available</div>
+                    </div>
+                </div>
+
+                <button class="btn-success" onclick="processPayment()" style="width:100%;padding:14px;font-size:1.1rem;margin-top:8px;">
+                    💰 Pay Now
+                </button>
+
+                <p class="payment-secure">🔒 Secure payment • Your card details are encrypted</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== QR CODE POPUP ===== -->
+    <div id="qrModal" class="modal hidden">
+        <div class="modal-content" style="max-width: 420px; text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 8px;">🎉</div>
+            <h2 style="color: var(--success); margin-bottom: 4px;">Booking Confirmed!</h2>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px;">
+                Reference: <strong id="qrReference" style="color: var(--text);"></strong>
+            </p>
+            <div style="background: white; padding: 16px; border-radius: 16px; display: inline-block; margin-bottom: 16px;">
+                <img id="qrImage" src="" alt="QR Code" style="width: 200px; height: 200px; display: block; border-radius: 8px;" />
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 16px;">
+                📧 QR code sent to your email <br>
+                <span style="font-size: 0.7rem;">Show this QR at the venue entrance</span>
+            </p>
+            <button onclick="closeQRModal()" class="btn-primary" style="margin-top: 8px;">Done</button>
+        </div>
+    </div>
+
+    <!-- ===== TOAST NOTIFICATIONS ===== -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
