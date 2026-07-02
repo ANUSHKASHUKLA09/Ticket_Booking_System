@@ -43,43 +43,44 @@ A full-stack ticket booking platform for movies and concerts with seat holds, wa
 ---
 
 ## 📁 Project Structure
+
+```
 ticket-booking-system/
 ├── backend/
-│ ├── config/
-│ │ └── db.js
-│ ├── models/
-│ │ ├── User.js
-│ │ ├── Venue.js
-│ │ ├── Show.js
-│ │ ├── Booking.js
-│ │ └── Waitlist.js
-│ ├── controllers/
-│ │ └── authController.js
-│ ├── routes/
-│ │ ├── authRoutes.js
-│ │ ├── venueRoutes.js
-│ │ ├── showRoutes.js
-│ │ ├── bookingRoutes.js
-│ │ └── waitlistRoutes.js
-│ ├── middleware/
-│ │ └── auth.js
-│ ├── utils/
-│ │ ├── seatHoldScheduler.js
-│ │ └── emailService.js
-│ ├── .env.example
-│ ├── package.json
-│ ├── server.js
-│ └── seed.js
+│   ├── config/
+│   │   └── db.js
+│   ├── models/
+│   │   ├── User.js
+│   │   ├── Venue.js
+│   │   ├── Show.js
+│   │   ├── Booking.js
+│   │   └── Waitlist.js
+│   ├── controllers/
+│   │   └── authController.js
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   ├── venueRoutes.js
+│   │   ├── showRoutes.js
+│   │   ├── bookingRoutes.js
+│   │   └── waitlistRoutes.js
+│   ├── middleware/
+│   │   └── auth.js
+│   ├── utils/
+│   │   ├── seatHoldScheduler.js
+│   │   └── emailService.js
+│   ├── .env.example
+│   ├── package.json
+│   ├── server.js
+│   └── seed.js
 ├── frontend/
-│ ├── css/
-│ │ └── style.css
-│ ├── js/
-│ │ └── app.js
-│ └── index.html
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   └── app.js
+│   └── index.html
 ├── README.md
 └── System-Design-Writeup.md
-
-text
+```
 
 ---
 
@@ -94,70 +95,97 @@ text
 ```bash
 git clone https://github.com/yourusername/ticket-booking-system.git
 cd ticket-booking-system
-Step 2: Install Backend Dependencies
-bash
+```
+
+### Step 2: Install Backend Dependencies
+```bash
 cd backend
 npm install
-Step 3: Configure Environment
-bash
-cp .env.example .env
-Update .env with your values:
+```
 
-env
+### Step 3: Configure Environment
+```bash
+cp .env.example .env
+```
+
+Update `.env` with your values:
+
+```env
 MONGO_URI=mongodb://localhost:27017/test
 JWT_SECRET=your-secret-key
 EMAIL_USER=your-email@gmail.com
 EMAIL_PASS=your-app-password
 FRONTEND_URL=http://localhost:5500
 PORT=5000
-Step 4: Seed Admin Account
-bash
+```
+
+### Step 4: Seed Admin Account
+```bash
 node seed.js
-Step 5: Start Backend
-bash
+```
+
+### Step 5: Start Backend
+```bash
 npm run dev
-Step 6: Open Frontend
-Open frontend/index.html in your browser
+```
 
-📧 Email Setup (Gmail)
-Enable 2-Step Verification on your Google Account
+### Step 6: Open Frontend
+Open `frontend/index.html` in your browser
 
-Go to Security → App Passwords
+---
 
-Generate an app password
+## 📧 Email Setup (Gmail)
+1. Enable 2-Step Verification on your Google Account
+2. Go to Security → App Passwords
+3. Generate an app password
+4. Use it as `EMAIL_PASS` in `.env`
 
-Use it as EMAIL_PASS in .env
+---
 
-📋 API Documentation
-Auth Routes
-Method	Endpoint	Description
-POST	/api/auth/register	Register user
-POST	/api/auth/login	Login user
-GET	/api/auth/me	Get current user
-Venue Routes
-Method	Endpoint	Description
-POST	/api/venues	Create venue (Admin)
-GET	/api/venues	Get all venues
-Show Routes
-Method	Endpoint	Description
-POST	/api/shows	Create show (Organiser/Admin)
-GET	/api/shows	Get all shows
-GET	/api/shows/:id	Get show with seats
-Booking Routes
-Method	Endpoint	Description
-POST	/api/bookings/hold	Hold seats
-POST	/api/bookings/release	Release held seats
-POST	/api/bookings/confirm	Confirm booking
-GET	/api/bookings/my-bookings	Get user bookings
-PUT	/api/bookings/:id/cancel	Cancel booking
-GET	/api/bookings/revenue	Revenue dashboard
-Waitlist Routes
-Method	Endpoint	Description
-POST	/api/waitlist/join	Join waitlist
-GET	/api/waitlist/my-status	Get waitlist status
-📊 Database Schema
-User
-javascript
+## 📋 API Documentation
+
+### Auth Routes
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | /api/auth/register | Register user |
+| POST | /api/auth/login | Login user |
+| GET | /api/auth/me | Get current user |
+
+### Venue Routes
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | /api/venues | Create venue (Admin) |
+| GET | /api/venues | Get all venues |
+
+### Show Routes
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | /api/shows | Create show (Organiser/Admin) |
+| GET | /api/shows | Get all shows |
+| GET | /api/shows/:id | Get show with seats |
+
+### Booking Routes
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | /api/bookings/hold | Hold seats |
+| POST | /api/bookings/release | Release held seats |
+| POST | /api/bookings/confirm | Confirm booking |
+| GET | /api/bookings/my-bookings | Get user bookings |
+| PUT | /api/bookings/:id/cancel | Cancel booking |
+| GET | /api/bookings/revenue | Revenue dashboard |
+
+### Waitlist Routes
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | /api/waitlist/join | Join waitlist |
+| GET | /api/waitlist/my-status | Get waitlist status |
+
+---
+
+## 📊 Database Schema
+
+### User
+```javascript
 {
   name: String,
   email: String (unique),
@@ -165,8 +193,10 @@ javascript
   role: 'admin' | 'organiser' | 'customer',
   createdAt: Date
 }
-Venue
-javascript
+```
+
+### Venue
+```javascript
 {
   name: String,
   address: String,
@@ -176,8 +206,10 @@ javascript
   createdBy: ObjectId,
   createdAt: Date
 }
-Show
-javascript
+```
+
+### Show
+```javascript
 {
   title: String,
   type: 'movie' | 'concert',
@@ -196,8 +228,10 @@ javascript
     bookedBy: ObjectId
   }]
 }
-Booking
-javascript
+```
+
+### Booking
+```javascript
 {
   reference: String (unique),
   userId: ObjectId,
@@ -209,8 +243,10 @@ javascript
   bookedAt: Date,
   createdAt: Date
 }
-Waitlist
-javascript
+```
+
+### Waitlist
+```javascript
 {
   showId: ObjectId,
   userId: ObjectId,
@@ -220,85 +256,87 @@ javascript
   offeredAt: Date,
   offerExpiresAt: Date
 }
-🔄 System Design Highlights
-Seat Hold TTL
-User holds seats for 10 minutes
+```
 
-Scheduler runs every minute to release expired holds
+---
 
-Auto-release prevents seat blocking
+## 🔄 System Design Highlights
 
-Concurrency Prevention
-Seat status checked before each operation
+**Seat Hold TTL**
+- User holds seats for 10 minutes
+- Scheduler runs every minute to release expired holds
+- Auto-release prevents seat blocking
 
-MongoDB atomic updates
+**Concurrency Prevention**
+- Seat status checked before each operation
+- MongoDB atomic updates
+- No two users can book the same seat
 
-No two users can book the same seat
+**Waitlist Management**
+- Separate queues per show and category
+- Auto-assignment on cancellation
+- 15-minute time-limited offers
 
-Waitlist Management
-Separate queues per show and category
+**QR Code**
+- Generated from booking reference
+- Displayed on screen + sent via email
+- Scannable for venue verification
 
-Auto-assignment on cancellation
+---
 
-15-minute time-limited offers
+## 🎯 Demo Credentials
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@example.com | admin123 |
+| Customer | Register new account | - |
 
-QR Code
-Generated from booking reference
+---
 
-Displayed on screen + sent via email
-
-Scannable for venue verification
-
-🎯 Demo Credentials
-Role	Email	Password
-Admin	admin@example.com	admin123
-Customer	Register new account	-
 ## 📸 Screenshots
 
 ### Login
-<img src="screenshots/Log in page.png" alt="Login Page" width="500">
+<img src="screenshots/Log%20in%20page.png" alt="Login Page" width="500">
 
 ### Events & Seat Selection
 <img src="screenshots/Events.png" alt="Events" width="500">
-<img src="screenshots/Hold seats.png" alt="Hold Timer" width="500">
+<img src="screenshots/Hold%20seats.png" alt="Hold Timer" width="500">
 
 ### Payment & QR Code
-<img src="screenshots/Payment dashboard.png" alt="Payment" width="500">
-<img src="screenshots/Booking Confirmation.png" alt="QR Code" width="500">
+<img src="screenshots/Payment%20dashboard.png" alt="Payment" width="500">
+<img src="screenshots/Booking%20Confirmed.png" alt="QR Code" width="500">
 
 ### My Tickets
-<img src="screenshots/My Tickets.png" alt="Tickets" width="500">
+<img src="screenshots/My%20Tickets.png" alt="Tickets" width="500">
 
 ### Admin Panel
-<img src="screenshots/Venue & Show management.png" alt="Admin" width="500">
-<img src="screenshots/Revenue dashboard.png" alt="Revenue" width="500">
+<img src="screenshots/Venue%20&%20Show%20management.png" alt="Admin" width="500">
+<img src="screenshots/Revenue%20Dashboard.png" alt="Revenue" width="500">
 
 ### Email
 <img src="screenshots/Email.png" alt="Email" width="500">
 
-🚀 Deployment
-Backend (Render/Railway)
-Push to GitHub
+---
 
-Connect to Render/Railway
+## 🚀 Deployment
 
-Add environment variables
+### Backend (Render/Railway)
+1. Push to GitHub
+2. Connect to Render/Railway
+3. Add environment variables
+4. Deploy
 
-Deploy
+### Frontend (Vercel/Netlify)
+1. Push to GitHub
+2. Connect to Vercel/Netlify
+3. Deploy
 
-Frontend (Vercel/Netlify)
-Push to GitHub
+---
 
-Connect to Vercel/Netlify
-
-Deploy
-
-📝 License
+## 📝 License
 MIT
 
-👨‍💻 Author
+## 👨‍💻 Author
 Anushka Shukla
 2k23.csai2310009@gmail.com
 
 © 2026 ShowTime - Ticket Booking System
-
