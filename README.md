@@ -87,8 +87,18 @@ ticket-booking-system/
 │   ├── js/
 │   │   └── app.js
 │   └── index.html
+├── screenshots/
+│   ├── Log in page.png
+│   ├── Events.png
+│   ├── Hold seats.png
+│   ├── Payment dashboard.png
+│   ├── Booking Confirmed.png
+│   ├── My Tickets.png
+│   ├── Venue & Show management.png
+│   ├── Revenue Dashboard.png
+│   └── Email.png
 ├── README.md
-└── System-Design-Writeup.md
+└── SYSTEM_DESIGN.md
 ```
 
 ---
